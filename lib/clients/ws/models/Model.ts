@@ -9,89 +9,89 @@ export class Model {
     public updatedAt: number;
 
     constructor (init?: Partial<Model>) {
-      this._type = this.constructor.name
+        this._type = this.constructor.name
 
-      if (init) {
-        Object.assign(this, init)
-        if (init._id && typeof init._id == 'object') {
-          this._id = this._id.toString()
+        if (init) {
+            Object.assign(this, init)
+            if (init._id && typeof init._id === 'object') {
+                this._id = this._id.toString()
+            }
+        } else {
+            this.enabled = true
+            this.createdAt = new Date().valueOf()
+            this.updatedAt = new Date().valueOf()
         }
-      } else {
-        this.enabled = true
-        this.createdAt = new Date().valueOf()
-        this.updatedAt = new Date().valueOf()
-      }
     }
 
     // #region [ Included Methods ]
     public update (): void {
-      this.updatedAt = new Date().valueOf()
+        this.updatedAt = new Date().valueOf()
     }
 
     public exists<T extends ModelComponent> (Type: new () => T): boolean {
-      if (!this.components || this.components.length == 0) {
-        return false
-      }
-      return this.components.find(x => x._type == new Type()._type) != undefined
+        if (!this.components || this.components.length == 0) {
+            return false
+        }
+        return this.components.find(x => x._type == new Type()._type) != undefined
     }
 
     public count<T extends ModelComponent> (type: new () => T): number {
-      return this.get(type).length
+        return this.get(type).length
     }
 
     public get<T extends ModelComponent> (Type: new () => T): T[] {
-      if (!this.components || this.components.length == 0) {
-        return []
-      }
-      const strType = new Type()._type
-      return this.components.filter(x => x._type == strType) as T[]
+        if (!this.components || this.components.length == 0) {
+            return []
+        }
+        const strType = new Type()._type
+        return this.components.filter(x => x._type == strType) as T[]
     }
 
     public first<T extends ModelComponent> (Type: new () => T): T | undefined {
-      if (!this.components || this.components.length == 0) {
-        return undefined
-      }
-      const strType = new Type()._type
-      return this.components.find(x => x._type == strType) as T
+        if (!this.components || this.components.length == 0) {
+            return undefined
+        }
+        const strType = new Type()._type
+        return this.components.find(x => x._type == strType) as T
     }
 
     public add (component: ModelComponent): void {
-      if (!this.components) {
-        this.components = []
-      }
+        if (!this.components) {
+            this.components = []
+        }
 
-      this.components.push(component)
+        this.components.push(component)
     }
 
     public remove<T extends ModelComponent> (Type: new () => T): void {
-      if (!this.components || this.components.length == 0) {
-        throw new Error('Components is empty')
-      }
+        if (!this.components || this.components.length == 0) {
+            throw new Error('Components is empty')
+        }
 
-      const first = this.first(Type)
-      if (!first) {
-        throw new Error(`Component type ${new Type()._type} not found`)
-      }
+        const first = this.first(Type)
+        if (!first) {
+            throw new Error(`Component type ${new Type()._type} not found`)
+        }
 
-      const idx = this.components.indexOf(first)
-      this.components.splice(idx, 1)
+        const idx = this.components.indexOf(first)
+        this.components.splice(idx, 1)
 
-      if (this.components.length == 0) {
-        delete this.components
-      }
+        if (this.components.length == 0) {
+            delete this.components
+        }
     }
 
     public removeAll<T extends ModelComponent> (Type: new () => T): void {
-      if (!this.components || this.components.length == 0) {
-        throw new Error('Components is empty')
-      }
+        if (!this.components || this.components.length == 0) {
+            throw new Error('Components is empty')
+        }
 
-      const strType = new Type()._type
-      this.components = this.components.filter(x => x._type != strType)
+        const strType = new Type()._type
+        this.components = this.components.filter(x => x._type != strType)
 
-      if (this.components && this.components.length == 0) {
-        delete this.components
-      }
+        if (this.components && this.components.length == 0) {
+            delete this.components
+        }
     }
     // #rendregion
 }

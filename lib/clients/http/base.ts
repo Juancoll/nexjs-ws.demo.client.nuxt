@@ -23,10 +23,10 @@ export const BASE_PATH = 'http://localhost:3000'.replace(/\/+$/, '')
  * @export
  */
 export const COLLECTION_FORMATS = {
-  csv: ',',
-  ssv: ' ',
-  tsv: '\t',
-  pipes: '|'
+    csv: ',',
+    ssv: ' ',
+    tsv: '\t',
+    pipes: '|'
 }
 
 /**
@@ -48,10 +48,10 @@ export class BaseAPI {
     protected configuration: Configuration | undefined;
 
     constructor (configuration?: Configuration, protected basePath: string = BASE_PATH, protected axios: AxiosInstance = globalAxios) {
-      if (configuration) {
-        this.configuration = configuration
-        this.basePath = configuration.basePath || this.basePath
-      }
+        if (configuration) {
+            this.configuration = configuration
+            this.basePath = configuration.basePath || this.basePath
+        }
     }
 };
 
@@ -64,6 +64,6 @@ export class BaseAPI {
 export class RequiredError extends Error {
     name: 'RequiredError' = 'RequiredError';
     constructor (public field: string, msg?: string) {
-      super(msg)
+        super(msg)
     }
 }

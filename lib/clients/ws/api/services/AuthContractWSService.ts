@@ -20,12 +20,12 @@ export class AuthContractWSService extends WSServiceBase {
 
     // isAuth: true
     public print (): Promise<void> {
-      return this.request<void>('print', null, null)
+        return this.request<void>('print', null, null)
     }
 
     // isAuth: true
     public notify (): Promise<void> {
-      return this.request<void>('notify', null, null)
+        return this.request<void>('notify', null, null)
     }
     // #endregion
 }

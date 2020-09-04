@@ -10,7 +10,6 @@ export class WSApi<TUser, Token> extends WSApiBase<TUser, Token> {
     public readonly credentialsContract = new CredentialsContractWSService(this.rest, this.hub);
 
     constructor (ws: IWSBase) {
-      super(ws)
-      console.log('')
+        super(ws)
     }
 }

@@ -20,17 +20,17 @@ export class BaseContractWSService extends WSServiceBase {
 
     // isAuth: false
     public print (): Promise<void> {
-      return this.request<void>('print', null, null)
+        return this.request<void>('print', null, null)
     }
 
     // isAuth: false
     public delay (value: number): Promise<number> {
-      return this.request<number>('delay', value, null)
+        return this.request<number>('delay', value, null)
     }
 
     // isAuth: false
     public notify (): Promise<void> {
-      return this.request<void>('notify', null, null)
+        return this.request<void>('notify', null, null)
     }
     // #endregion
 }

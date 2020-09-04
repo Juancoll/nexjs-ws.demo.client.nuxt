@@ -1,7 +1,7 @@
 <template lang="pug">
     v-container.flex.v-container.full.items.h-center.v-center
         v-card
-            div.flex.v-container           
+            div.flex.v-container
                 div.flex.v-container(style="padding:2rem")
                     div(style="text-align:center;max-width:100vw;margin:2rem")
                         img(v-bind:src="logo" alt='logo' style="width:100%")
@@ -19,54 +19,58 @@
                 v-progress-linear(v-if="isWaiting" indeterminate  color="primary")
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { errors } from '@/services/errors';
-import { authApp } from '@/services/authApp';
-import router from '@/router';
-import { env } from '@/services/env';
+import { Component, Vue } from 'nuxt-property-decorator'
+import { getModule } from 'vuex-module-decorators'
+import AuthStore from '~/store/auth'
 
 @Component
 export default class LoginView extends Vue {
-    //#region [ data ]
+    // #region [ data ]
     public logo = require('@/assets/icons/icon_256.png');
-    public email: string = env.vars.defaults.user.email || '';
-    public password: string = env.vars.defaults.user.password || '';
+    public email: string = 'juan@any.com';
+    public password: string = '123456';
     public isWaiting = false;
-    //#endregion
+    // #endregion
 
-    //#region [ methods ]
-    async login(): Promise<void> {
+    private authStore: AuthStore;
+
+    constructor () {
+        super()
+        this.authStore = getModule(AuthStore, this.$store)
+    }
+
+    // #region [ methods ]
+    async login (): Promise<void> {
         try {
-            this.isWaiting = true;
-            this.validation();
-            await authApp.login({ email: this.email, password: this.password });
+            await this.authStore.login({ email: this.email, password: this.password })
+            this.$nuxt.context.redirect('/authenticated')
         } catch (err) {
-            console.log(err);
-            errors.catchError(err, router);
+            console.log(err)
         } finally {
-            this.isWaiting = false;
+            this.isWaiting = false
         }
     }
-    //#endregion
+    // #endregion
 
-    //#region [ private ]
-    private validation(): void {
+    // #region [ private ]
+    private validation (): void {
         // tslint:disable-next-line: max-line-length
-        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        // eslint-disable-next-line no-useless-escape
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         if (this.email.trim() == '') {
-            throw new Error('Email is empty');
+            throw new Error('Email is empty')
         }
 
         if (!re.test(this.email.toLowerCase())) {
-            throw new Error('Email bad format');
+            throw new Error('Email bad format')
         }
         if (this.password.trim() == '') {
-            throw new Error('Password is empty');
+            throw new Error('Password is empty')
         }
         if (this.password.length < 6) {
-            throw new Error('Password required 6 character minimum');
+            throw new Error('Password required 6 character minimum')
         }
     }
-    //#endregion
+    // #endregion
 }
 </script>

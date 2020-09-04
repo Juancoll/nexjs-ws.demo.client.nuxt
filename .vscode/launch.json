@@ -1,0 +1,29 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "nuxt: server",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "dev:debug"
+            ],
+            "port": 9229
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "nuxt: client",
+            "url": "http://localhost:8000",
+            "webRoot": "${workspaceFolder}"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "fullstack: nuxt",
+            "configurations": ["nuxt: server", "nuxt: client"]
+        }
+    ]
+}

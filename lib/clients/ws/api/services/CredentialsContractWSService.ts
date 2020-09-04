@@ -20,12 +20,12 @@ export class CredentialsContractWSService extends WSServiceBase {
 
     // isAuth: false
     public print (credentials: any): Promise<void> {
-      return this.request<void>('print', null, credentials)
+        return this.request<void>('print', null, credentials)
     }
 
     // isAuth: false
     public notify (): Promise<void> {
-      return this.request<void>('notify', null, null)
+        return this.request<void>('notify', null, null)
     }
     // #endregion
 }

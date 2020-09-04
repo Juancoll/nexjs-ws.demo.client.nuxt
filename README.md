@@ -1,4 +1,4 @@
-# nuxt
+# nuxt-auth
 
 ## Build Setup
 
@@ -18,7 +18,3 @@ $ npm run generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
-
-# meta tags 
-- https://ogp.me/
-- https://css-tricks.com/essential-meta-tags-social-media/

@@ -6,4 +6,6 @@ export class User extends Model {
     public roles: string[];
     public name: string;
     public surname: string;
+
+    constructor (init?: Partial<User>) { super(init) }
 }

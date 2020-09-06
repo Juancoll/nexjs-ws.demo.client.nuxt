@@ -10,7 +10,7 @@
                 "run",
                 "dev:debug"
             ],
-            "port": 9229
+            "port": 9230
         },
         {
             "type": "chrome",

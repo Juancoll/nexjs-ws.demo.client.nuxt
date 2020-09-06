@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { wsapi } from '@/services/wsapi'
+import { wsapi } from '@/plugins/wsapi'
 
 @Component
 export default class WSAuthContractView extends Vue {

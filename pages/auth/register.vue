@@ -8,27 +8,22 @@
                         h4(style="margin-top:10px") Hello! let&apos;s get started
                         h5.font-weight-light Register in to continue.
                     div
-                        v-form(@keyup.native.enter="login")
+                        v-form(@keyup.native.enter="register")
                             div
                                 v-text-field(label="email" type='email'  v-model="email" required)
                             div
                                 v-text-field(label="password"  type='password' v-model="password" required)
-                            v-row
-                                v-col
-                                    v-btn.flex.h-center.h-full.primary(@click="loginLocal") SIGN Local
-                                v-col
-                                    v-btn.flex.h-center.h-full.primary(@click="loginJwt") SIGN JWT
-                                v-col
-                                    v-btn.flex.h-center.h-full.primary(@click="loginWS") SIGN WS
+                            v-btn.flex.h-center.h-full.primary(@click="register") REGISTER
                     div.h-full.flex.v-container.items.right(style="margin-top:5px")
-                        nuxt-link(to="/auth/register") ...or register
+                        nuxt-link(to="/auth/login") ...or login
                 v-progress-linear(v-if="isWaiting" indeterminate  color="primary")
 </template>
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
+import { httpapi } from '~/plugins/httpapi'
 
 @Component
-export default class LoginView extends Vue {
+export default class RegisterView extends Vue {
     // #region [ data ]
     public logo = require('@/assets/icons/icon_256.png');
     public email: string = 'juan@any.com';
@@ -36,37 +31,16 @@ export default class LoginView extends Vue {
     public isWaiting = false;
     // #endregion
 
-    constructor () {
-        super()
-    }
-
     // #region [ methods ]
-    async loginLocal (): Promise<void> {
+    async register (): Promise<void> {
         try {
-            await this.$auth.loginWith('local-session', { data: { email: this.email, password: this.password } })
-            this.$nuxt.context.redirect('/authenticated')
-        } catch (err) {
-            console.log(err)
-        } finally {
-            this.isWaiting = false
-        }
-    }
-
-    async loginJwt (): Promise<void> {
-        try {
-            await this.$auth.loginWith('local-jwt', { data: { email: this.email, password: this.password } })
-            this.$nuxt.context.redirect('/authenticated')
-        } catch (err) {
-            console.log(err)
-        } finally {
-            this.isWaiting = false
-        }
-    }
-
-    async loginWS (): Promise<void> {
-        try {
-            await this.$auth.loginWith('nexjs-ws', { data: { email: this.email, password: this.password } })
-            this.$nuxt.context.redirect('/authenticated')
+            this.isWaiting = true
+            this.validation()
+            await httpapi.auth.authControllerRegister({
+                email: this.email,
+                password: this.password
+            })
+            this.$nuxt.context.redirect('/auth/login')
         } catch (err) {
             console.log(err)
         } finally {
@@ -77,7 +51,6 @@ export default class LoginView extends Vue {
 
     // #region [ private ]
     private validation (): void {
-        // tslint:disable-next-line: max-line-length
         // eslint-disable-next-line no-useless-escape
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         if (this.email.trim() == '') {

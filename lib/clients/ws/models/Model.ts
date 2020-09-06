@@ -1,4 +1,4 @@
-import { ModelComponent } from './ModelComponent'
+import { ModelComponent } from './ModelComponent';
 
 export class Model {
     public components: ModelComponent[];
@@ -8,90 +8,84 @@ export class Model {
     public createdAt: number;
     public updatedAt: number;
 
-    constructor (init?: Partial<Model>) {
-        this._type = this.constructor.name
+    constructor(init?: Partial<Model>) {
+        this._type = this.constructor.name;
 
         if (init) {
-            Object.assign(this, init)
-            if (init._id && typeof init._id === 'object') {
-                this._id = this._id.toString()
+            Object.assign(this, init);
+            if (init._id && typeof init._id == 'object') {
+                this._id = this._id.toString();
             }
         } else {
-            this.enabled = true
-            this.createdAt = new Date().valueOf()
-            this.updatedAt = new Date().valueOf()
+            this.enabled = true;
+            this.createdAt = new Date().valueOf();
+            this.updatedAt = new Date().valueOf();
         }
     }
 
-    // #region [ Included Methods ]
-    public update (): void {
-        this.updatedAt = new Date().valueOf()
-    }
 
-    public exists<T extends ModelComponent> (Type: new () => T): boolean {
+    //#region [ Included Methods ]
+        public update(): void {
+        this.updatedAt = new Date().valueOf();
+    }
+        public exists<T extends ModelComponent>(type: new () => T): boolean {
         if (!this.components || this.components.length == 0) {
-            return false
+            return false;
         }
-        return this.components.find(x => x._type == new Type()._type) != undefined
+        return this.components.find(x => x._type == new type()._type) != undefined;
     }
-
-    public count<T extends ModelComponent> (type: new () => T): number {
-        return this.get(type).length
+        public count<T extends ModelComponent>(type: new () => T): number {
+        return this.get(type).length;
     }
-
-    public get<T extends ModelComponent> (Type: new () => T): T[] {
+        public get<T extends ModelComponent>(type: new () => T): T[] {
         if (!this.components || this.components.length == 0) {
-            return []
+            return [];
         }
-        const strType = new Type()._type
-        return this.components.filter(x => x._type == strType) as T[]
+        const strType = new type()._type;
+        return this.components.filter(x => x._type == strType) as T[];
     }
-
-    public first<T extends ModelComponent> (Type: new () => T): T | undefined {
+        public first<T extends ModelComponent>(type: new () => T): T | undefined {
         if (!this.components || this.components.length == 0) {
-            return undefined
+            return undefined;
         }
-        const strType = new Type()._type
-        return this.components.find(x => x._type == strType) as T
+        const strType = new type()._type;
+        return this.components.find(x => x._type == strType) as T;
     }
-
-    public add (component: ModelComponent): void {
+        public add(component: ModelComponent): void {
         if (!this.components) {
-            this.components = []
+            this.components = [];
         }
 
-        this.components.push(component)
+        this.components.push(component);
     }
-
-    public remove<T extends ModelComponent> (Type: new () => T): void {
+        public remove<T extends ModelComponent>(type: new () => T): void {
         if (!this.components || this.components.length == 0) {
-            throw new Error('Components is empty')
+            throw new Error(`Components is empty`);
         }
 
-        const first = this.first(Type)
+        const first = this.first(type);
         if (!first) {
-            throw new Error(`Component type ${new Type()._type} not found`)
+            throw new Error(`Component type ${new type()._type} not found`);
         }
 
-        const idx = this.components.indexOf(first)
-        this.components.splice(idx, 1)
+        const idx = this.components.indexOf(first);
+        this.components.splice(idx, 1);
 
         if (this.components.length == 0) {
-            delete this.components
+            delete this.components;
         }
     }
-
-    public removeAll<T extends ModelComponent> (Type: new () => T): void {
+        public removeAll<T extends ModelComponent>(type: new () => T): void {
         if (!this.components || this.components.length == 0) {
-            throw new Error('Components is empty')
+            throw new Error(`Components is empty`);
         }
 
-        const strType = new Type()._type
-        this.components = this.components.filter(x => x._type != strType)
+        const strType = new type()._type;
+        this.components = this.components.filter(x => x._type != strType);
 
         if (this.components && this.components.length == 0) {
-            delete this.components
+            delete this.components;
         }
     }
-    // #rendregion
+    //#rendregion
 }

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev:debug": "node --inspect node_modules/@nuxt/typescript-runtime/bin/nuxt-ts.js",
+    "dev:debug": "node --inspect=localhost:9230 node_modules/@nuxt/typescript-runtime/bin/nuxt-ts.js",
     "dev": "nuxt-ts",
     "build": "nuxt-ts build",
     "start": "nuxt-ts start",
@@ -18,6 +18,7 @@
     "@nuxt/content": "^1.5.0",
     "@nuxt/typescript-runtime": "^1.0.0",
     "@nuxtjs/auth-next": "^5.0.0-1595976864.509d9d6",
+    "@nuxtjs/axios": "^5.12.2",
     "@types/node": "^14.6.3",
     "axios": "^0.20.0",
     "body-parser": "^1.19.0",
@@ -31,6 +32,7 @@
     "vue-class-component": "^7.2.5"
   },
   "devDependencies": {
+    "@nexjs/cli": "^1.5.0",
     "@nuxt/types": "^2.14.0",
     "@nuxt/typescript-build": "^2.0.2",
     "@nuxtjs/eslint-config": "^3.1.0",

@@ -53,13 +53,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { getModule } from 'vuex-module-decorators'
-import AuthStore from '~/store/auth'
 
 @Component
 export default class DefaultLayout extends Vue {
-    private authStore: AuthStore;
-
     // #region [ data ]
     logo = require('@/assets/icons/icon_256.png');
     clipped= true
@@ -121,11 +117,11 @@ export default class DefaultLayout extends Vue {
     // #endregion
 
     get isAuth () {
-        return this.authStore.isAuth
+        return this.$auth.loggedIn
     }
 
     get user () {
-        return this.authStore.getUser
+        return this.$auth.user
     }
 
     constructor () {
@@ -135,11 +131,7 @@ export default class DefaultLayout extends Vue {
 
     // #region [ vue lifecycle ]
     beforeCreate () { console.log('[layout-default][vue] beforeCreated()') }
-    created (): void {
-        console.log('[layout-default][vue] created()')
-        this.authStore = getModule(AuthStore, this.$store)
-    }
-
+    created (): void { console.log('[layout-default][vue] created()') }
     beforeMount () { console.log('[layout-default][vue] beforeMount()') }
     mounted (): void { console.log('[layout-default][vue] mounted()') }
     beforeUpdate (): void { console.log('[layout-default][vue] beforeUpdate()') }
@@ -160,11 +152,10 @@ export default class DefaultLayout extends Vue {
     }
 
     async logout () {
-        await this.authStore.logout()
+        await this.$auth.logout()
     }
 
     login () {
-        console.log('----')
         this.$nuxt.context.redirect('/auth/login')
     }
 }

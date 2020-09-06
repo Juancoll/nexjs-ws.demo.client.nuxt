@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { httpapi } from '@/services/httpapi'
+import { httpapi } from '@/plugins/httpapi'
 
 @Component
 export default class HttpConnection extends Vue {

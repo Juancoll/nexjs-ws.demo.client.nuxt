@@ -1,4 +1,5 @@
-import { Model } from './Model'
+import { Model } from './Model';
+import { ModelComponent } from './ModelComponent';
 
 export class User extends Model {
     public email: string;
@@ -7,5 +8,7 @@ export class User extends Model {
     public name: string;
     public surname: string;
 
-    constructor (init?: Partial<User>) { super(init) }
+    constructor(init?: Partial<User>) { super(init); }
+
+
 }

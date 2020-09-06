@@ -5,16 +5,13 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { getModule } from 'vuex-module-decorators'
-import AuthStore from '~/store/auth'
 
 @Component({
     middleware: 'auth'
 })
 export default class AuthenticatedPage extends Vue {
-    private authStore: AuthStore;
     public get user () {
-        return this.authStore.getUser
+        return this.$auth.user
     }
 
     constructor () {
@@ -26,7 +23,6 @@ export default class AuthenticatedPage extends Vue {
     beforeCreate (): void { console.log('[page-authenticated][vue] beforeCreated()') }
     created (): void {
         console.log('[page-authenticated][vue] created()')
-        this.authStore = getModule(AuthStore, this.$store)
     }
 
     beforeMount () { console.log('[page-authenticated][vue] beforeMount()') }

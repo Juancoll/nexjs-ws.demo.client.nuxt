@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { wsapi } from '@/services/wsapi'
+import { wsapi } from '@/plugins/wsapi'
 
 @Component
 export default class WSConnectionView extends Vue {

@@ -45,8 +45,9 @@ export default {
 
     // Plugins to load before mounting the App - https://nuxtjs.org/guide/plugins
     plugins: [
-        '~/plugins/custom.plugin.ts',
-        '~/plugins/auth.plugin.ts'
+        '~/plugins/custom.plugin',
+        '~/plugins/httpapi',
+        '~/plugins/wsapi'
     ],
 
     // Auto import components - See https://nuxtjs.org/api/configuration-components
@@ -55,39 +56,93 @@ export default {
     // Nuxt.js dev-modules
     buildModules: [
         '@nuxt/typescript-build',
-        '@nuxtjs/vuetify'
+        ['@nuxtjs/vuetify',
+            {
+                customVariables: ['~/assets/style/vuetify.scss'],
+                theme: {
+                    dark: false,
+                    themes: {
+                        dark: {
+                            primary: colors.blue.darken2,
+                            accent: colors.grey.darken3,
+                            secondary: colors.amber.darken3,
+                            info: colors.teal.lighten1,
+                            warning: colors.amber.base,
+                            error: colors.deepOrange.accent4,
+                            success: colors.green.accent3
+                        }
+                    }
+                }
+            }
+        ]
     ],
 
     //  Nuxt.js modules
     modules: [
-        '@nuxt/content', // Doc: https://github.com/nuxt/content
-        ['nuxt-vuex-localstorage', {
-            mode: 'debug',
-            localStorage: ['auth']
+        ['@nuxt/content', {}], // Doc: https://github.com/nuxt/content
+        ['@nuxtjs/axios', {
+            baseURL: 'http://localhost:3000/api',
+            credentials: true
+        }],
+        ['@nuxtjs/auth-next', {
+            strategies: {
+                'local-session': {
+                    scheme: 'local',
+                    token: {
+                        required: false,
+                        type: false
+                    },
+                    user: {
+                        property: 'user'
+                    },
+                    endpoints: {
+                        login: { url: '/auth/localLogin', method: 'post' },
+                        logout: { url: '/auth/localLogout', method: 'post' },
+                        user: { url: '/auth/localMe', method: 'get' }
+                    }
+                },
+                'local-jwt': {
+                    scheme: 'local',
+                    token: {
+                        property: 'token',
+                        required: true,
+                        type: 'Bearer'
+                    },
+                    user: {
+                        property: 'user'
+                    },
+                    endpoints: {
+                        login: { url: '/auth/jwtLogin', method: 'post' },
+                        logout: { url: '/auth/jwtLogout', method: 'post' },
+                        user: { url: '/auth/jwtMe', method: 'get' }
+                    }
+                },
+                'nexjs-ws': {
+                    scheme: '~/plugins/schemes/ws.auth.scheme.v2',
+                    token: {
+                        property: 'token',
+                        required: true,
+                        type: 'Bearer'
+                    },
+                    user: {
+                        property: 'user',
+                        autoFetch: false
+                    },
+                    ws: {
+                        url: 'http://localhost:3000',
+                        path: '/wsapi',
+                        nsp: '/'
+                    }
+                }
+            },
+            redirect: {
+                login: '/auth/login',
+                logout: '/',
+                callback: false,
+                home: false
+            }
         }]
     ],
-
-    // Content module configuration - See https://content.nuxtjs.org/configuration
-    content: {},
-
-    // vuetify module configuration - https://github.com/nuxt-community/vuetify-module
-    vuetify: {
-        customVariables: ['~/assets/style/vuetify.scss'],
-        theme: {
-            dark: false,
-            themes: {
-                dark: {
-                    primary: colors.blue.darken2,
-                    accent: colors.grey.darken3,
-                    secondary: colors.amber.darken3,
-                    info: colors.teal.lighten1,
-                    warning: colors.amber.base,
-                    error: colors.deepOrange.accent4,
-                    success: colors.green.accent3
-                }
-            }
-        }
-    },
 
     // Build configuration - See https://nuxtjs.org/api/configuration-build/
     build: {
@@ -96,9 +151,7 @@ export default {
                 config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
             }
         },
-        transpile: [
-            'nuxt-vuex-localstorage'
-        ]
+        transpile: ['@nuxtjs/auth']
     },
 
     serverMiddleware: [

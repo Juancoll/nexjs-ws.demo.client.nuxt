@@ -16,39 +16,21 @@
 /**
  * 
  * @export
- * @interface User
+ * @interface RegisterAuthRequest
  */
-export interface User {
+export interface RegisterAuthRequest {
     /**
      * 
      * @type {string}
-     * @memberof User
+     * @memberof RegisterAuthRequest
      */
     email: string;
     /**
      * 
      * @type {string}
-     * @memberof User
+     * @memberof RegisterAuthRequest
      */
-    password?: string;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof User
-     */
-    roles: Array<string>;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    name?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    surname?: string;
+    password: string;
 }
 
 

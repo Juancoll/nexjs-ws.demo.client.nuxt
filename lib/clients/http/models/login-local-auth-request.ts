@@ -16,39 +16,21 @@
 /**
  * 
  * @export
- * @interface User
+ * @interface LoginLocalAuthRequest
  */
-export interface User {
+export interface LoginLocalAuthRequest {
     /**
      * 
      * @type {string}
-     * @memberof User
+     * @memberof LoginLocalAuthRequest
      */
     email: string;
     /**
      * 
      * @type {string}
-     * @memberof User
+     * @memberof LoginLocalAuthRequest
      */
-    password?: string;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof User
-     */
-    roles: Array<string>;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    name?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    surname?: string;
+    password: string;
 }
 
 

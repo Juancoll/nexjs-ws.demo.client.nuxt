@@ -12,10 +12,20 @@
  */
 
 
+import { User } from './user';
 
-export * from './api/auth-api';
-export * from './api/db-datas-api';
-export * from './api/db-users-api';
-export * from './api/default-api';
-export * from './api/test-api';
+/**
+ * 
+ * @export
+ * @interface RegisterAuthResponse
+ */
+export interface RegisterAuthResponse {
+    /**
+     * 
+     * @type {User}
+     * @memberof RegisterAuthResponse
+     */
+    user: User;
+}
+
 

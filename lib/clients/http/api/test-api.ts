@@ -29,6 +29,44 @@ export const TestApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        testControllerAaa: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/test/aaaa`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+
+    
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         testControllerTestAuthJwt: async (options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/test/test-auth-jwt`;
             const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
@@ -201,6 +239,18 @@ export const TestApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        async testControllerAaa(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await TestApiAxiosParamCreator(configuration).testControllerAaa(options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         async testControllerTestAuthJwt(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
             const localVarAxiosArgs = await TestApiAxiosParamCreator(configuration).testControllerTestAuthJwt(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
@@ -270,6 +320,14 @@ export const TestApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        testControllerAaa(options?: any): AxiosPromise<string> {
+            return TestApiFp(configuration).testControllerAaa(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         testControllerTestAuthJwt(options?: any): AxiosPromise<string> {
             return TestApiFp(configuration).testControllerTestAuthJwt(options).then((request) => request(axios, basePath));
         },
@@ -320,6 +378,14 @@ export interface TestApiInterface {
      * @throws {RequiredError}
      * @memberof TestApiInterface
      */
+    testControllerAaa(options?: any): AxiosPromise<string>;
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TestApiInterface
+     */
     testControllerTestAuthJwt(options?: any): AxiosPromise<string>;
 
     /**
@@ -363,6 +429,16 @@ export interface TestApiInterface {
  * @extends {BaseAPI}
  */
 export class TestApi extends BaseAPI implements TestApiInterface {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TestApi
+     */
+    public testControllerAaa(options?: any) {
+        return TestApiFp(this.configuration).testControllerAaa(options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {*} [options] Override http request option.

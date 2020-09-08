@@ -12,43 +12,26 @@
  */
 
 
+import { User } from './user';
 
 /**
  * 
  * @export
- * @interface User
+ * @interface LoginJwtAuthResponse
  */
-export interface User {
+export interface LoginJwtAuthResponse {
+    /**
+     * 
+     * @type {User}
+     * @memberof LoginJwtAuthResponse
+     */
+    user: User;
     /**
      * 
      * @type {string}
-     * @memberof User
+     * @memberof LoginJwtAuthResponse
      */
-    email: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    password?: string;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof User
-     */
-    roles: Array<string>;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    name?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    surname?: string;
+    token: string;
 }
 
 

@@ -1,7 +1,7 @@
 import { Configuration, DefaultApi, DbDatasApi, DbUsersApi, AuthApi, TestApi } from '@/lib/clients/http'
 import { AxiosResponse } from 'axios'
 import { AuthUserDto } from '@/lib/clients/http/models/auth-user-dto'
-import { AuthJwtLoginResponseDto } from '@/lib/clients/http/models'
+import { LoginLocalAuthResponse } from '@/lib/clients/http/models'
 
 export class HttpApi {
     public default: DefaultApi;
@@ -12,7 +12,7 @@ export class HttpApi {
 
     private configuration: Configuration;
 
-    public set url (value: string | undefined) {
+    public set url ( value: string | undefined ) {
         this.configuration.basePath = value
     }
 
@@ -20,23 +20,23 @@ export class HttpApi {
         return this.configuration.basePath
     }
 
-    constructor (url: string) {
-        this.configuration = new Configuration({ basePath: url })
-        this.auth = new AuthApi(this.configuration)
-        this.default = new DefaultApi(this.configuration)
-        this.dbDatas = new DbDatasApi(this.configuration)
-        this.dbUsers = new DbUsersApi(this.configuration)
-        this.test = new TestApi(this.configuration)
+    constructor ( url: string ) {
+        this.configuration = new Configuration( { basePath: url } )
+        this.auth = new AuthApi( this.configuration )
+        this.default = new DefaultApi( this.configuration )
+        this.dbDatas = new DbDatasApi( this.configuration )
+        this.dbUsers = new DbUsersApi( this.configuration )
+        this.test = new TestApi( this.configuration )
     }
 
-    async localLogin (email: string, password: string): Promise<AxiosResponse<AuthUserDto>> {
+    async localLogin ( email: string, password: string ): Promise<AxiosResponse<LoginLocalAuthResponse>> {
         this.configuration.baseOptions = {
-            withCredentials: true
+            withCredentials: true,
         }
-        const response = await this.auth.authControllerLocalLogin({
+        const response = await this.auth.authControllerLocalLogin( {
             email,
-            password
-        })
+            password,
+        } )
         this.configuration.username = email
         this.configuration.password = password
 
@@ -46,25 +46,25 @@ export class HttpApi {
     async localLogout (): Promise<void> {
         await this.auth.authControllerLocalLogout()
         this.configuration.baseOptions = {
-            withCredentials: false
+            withCredentials: false,
         }
     }
 
-    async jwtLogin (email: string, password: string): Promise<AxiosResponse<AuthJwtLoginResponseDto>> {
-        const response = await this.auth.authControllerJwtLogin({
+    async jwtLogin ( email: string, password: string ): Promise<AxiosResponse<LoginLocalAuthResponse>> {
+        const response = await this.auth.authControllerJwtLogin( {
             email,
-            password
-        })
+            password,
+        } )
         this.configuration.baseOptions = {
             headers: { Authorization: `bearer ${response.data.token}` },
-            withCredentials: true
+            withCredentials: true,
         }
 
         return response
     }
 
     jwtLogout (): void {
-        if (this.configuration &&
+        if ( this.configuration &&
             this.configuration.baseOptions &&
             this.configuration.baseOptions.headers &&
             this.configuration.baseOptions.headers.Authorization
@@ -74,11 +74,11 @@ export class HttpApi {
         }
     }
 
-    public setToken (token?: string): void {
-        if (token) {
+    public setToken ( token?: string ): void {
+        if ( token ) {
             this.configuration.baseOptions = {
                 headers: { Authorization: `bearer ${token}` },
-                withCredentials: true
+                withCredentials: true,
             }
         } else {
             this.jwtLogout()
@@ -86,5 +86,5 @@ export class HttpApi {
     }
 }
 
-console.log('create httpapi')
-export const httpapi = new HttpApi('http://localhost:3000')
+console.log( 'create httpapi' )
+export const httpapi = new HttpApi( 'http://localhost:3000' )

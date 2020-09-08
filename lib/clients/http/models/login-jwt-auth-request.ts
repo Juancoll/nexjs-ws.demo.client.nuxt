@@ -16,39 +16,21 @@
 /**
  * 
  * @export
- * @interface User
+ * @interface LoginJwtAuthRequest
  */
-export interface User {
+export interface LoginJwtAuthRequest {
     /**
      * 
      * @type {string}
-     * @memberof User
+     * @memberof LoginJwtAuthRequest
      */
     email: string;
     /**
      * 
      * @type {string}
-     * @memberof User
+     * @memberof LoginJwtAuthRequest
      */
-    password?: string;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof User
-     */
-    roles: Array<string>;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    name?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    surname?: string;
+    password: string;
 }
 
 

@@ -1,10 +1,10 @@
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators'
 
-@Module({
+@Module( {
     name: 'counter',
     stateFactory: true,
-    namespaced: true
-})
+    namespaced: true,
+} )
 export default class AuthStore extends VuexModule {
     // #region  [ state ]
     counter: number = 0; // initialise empty for now
@@ -18,25 +18,25 @@ export default class AuthStore extends VuexModule {
 
     // #region [ mutations ]
     @Mutation
-    INCREMENT () {
+    INCREMENT (): void {
         this.counter++
     }
 
     @Mutation
-    DECREMENT () {
+    DECREMENT (): void {
         this.counter--
     }
     // #endregion
 
     // #region  [ actions ]
-    @Action
-    Increment () {
-        this.context.commit('INCREMENT')
+    @Action( { rawError: true } )
+    Increment (): void {
+        this.context.commit( 'INCREMENT' )
     }
 
-    @Action
-    Decrement () {
-        this.context.commit('DECREMENT')
+    @Action( { rawError: true } )
+    Decrement (): void {
+        this.context.commit( 'DECREMENT' )
     }
     // #endregion
 }

@@ -5,4 +5,5 @@ export class ModelComponent {
     constructor () {
         this._type = this.constructor.name
     }
+
 }

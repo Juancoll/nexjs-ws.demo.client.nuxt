@@ -20,6 +20,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { wsapi } from '@/plugins/wsapi'
+import { DataType } from '~/lib/clients/ws'
 
 @Component
 export default class WSCredentialContractView extends Vue {
@@ -27,68 +28,68 @@ export default class WSCredentialContractView extends Vue {
 
     constructor () {
         super()
-        console.log('[WSCredentialContractView] constructor()')
+        console.log( '[WSCredentialContractView] constructor()' )
     }
 
     mounted (): void {
-        console.log('[WSCredentialContractView] mounted()')
-        wsapi.credentialsContract.onUpdate.on(() =>
-            console.log('[credentialContract] onUpdate')
+        console.log( '[WSCredentialContractView] mounted()' )
+        wsapi.credentialsContract.onUpdate.on( () =>
+            console.log( '[credentialContract] onUpdate' ),
         )
-        wsapi.credentialsContract.onDataUpdate.on(data =>
-            console.log('[credentialContract] onDataUpdate', data)
+        wsapi.credentialsContract.onDataUpdate.on( ( data: DataType ) =>
+            console.log( '[credentialContract] onDataUpdate', data ),
         )
     }
 
     destroyed (): void {
-        console.log('[WSCredentialContractView] destroyed()')
+        console.log( '[WSCredentialContractView] destroyed()' )
         wsapi.credentialsContract.onUpdate.off()
         wsapi.credentialsContract.onDataUpdate.off()
     }
 
     async subscribe (): Promise<void> {
         try {
-            console.log('[WSCredentialContractView] subscribe request')
+            console.log( '[WSCredentialContractView] subscribe request' )
             await wsapi.credentialsContract.onUpdate.sub(
-                'user-credentials-001'
+                'user-credentials-001',
             )
             await wsapi.credentialsContract.onDataUpdate.sub(
-                'user-credentials-002'
+                'user-credentials-002',
             )
-            console.log('[WSCredentialContractView] subscribe response')
-        } catch (err) {
-            console.warn(err)
+            console.log( '[WSCredentialContractView] subscribe response' )
+        } catch ( err ) {
+            console.warn( err )
         }
     }
 
     async unsubscribe (): Promise<void> {
         try {
-            console.log('[WSCredentialContractView] unsubscribe request')
+            console.log( '[WSCredentialContractView] unsubscribe request' )
             await wsapi.credentialsContract.onUpdate.unsub()
             await wsapi.credentialsContract.onDataUpdate.unsub()
-            console.log('[WSCredentialContractView] unsubscribe response')
-        } catch (err) {
-            console.warn(err)
+            console.log( '[WSCredentialContractView] unsubscribe response' )
+        } catch ( err ) {
+            console.warn( err )
         }
     }
 
     async print (): Promise<void> {
         try {
-            console.log('[WSCredentialContractView] print() request')
-            await wsapi.credentialsContract.print('user-credentials-003')
-            console.log('[WSCredentialContractView] print() response')
-        } catch (err) {
-            console.warn(err)
+            console.log( '[WSCredentialContractView] print() request' )
+            await wsapi.credentialsContract.print( )
+            console.log( '[WSCredentialContractView] print() response' )
+        } catch ( err ) {
+            console.warn( err )
         }
     }
 
     async notify (): Promise<void> {
         try {
-            console.log('[WSCredentialContractView] notify() request')
+            console.log( '[WSCredentialContractView] notify() request' )
             await wsapi.credentialsContract.notify()
-            console.log('[WSCredentialContractView] notify() response')
-        } catch (err) {
-            console.warn(err)
+            console.log( '[WSCredentialContractView] notify() response' )
+        } catch ( err ) {
+            console.warn( err )
         }
     }
 }

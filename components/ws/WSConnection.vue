@@ -43,55 +43,55 @@ export default class WSConnectionView extends Vue {
 
     async connect (): Promise<void> {
         try {
-            console.log('[WSConnectionView] connect() request')
-            await wsapi.ws.connectAsync(this.url, '/wsapi', '')
-            console.log('[WSConnectionView] connect() response')
-        } catch (err) {
-            console.warn(err)
+            console.log( '[WSConnectionView] connect() request' )
+            await wsapi.ws.connectAsync( this.url, '/wsapi', '' )
+            console.log( '[WSConnectionView] connect() response' )
+        } catch ( err ) {
+            console.warn( err )
         }
     }
 
     async disconnect (): Promise<void> {
         try {
-            console.log('[WSConnectionView] disconnect() request')
+            console.log( '[WSConnectionView] disconnect() request' )
             await wsapi.ws.disconnect()
-            console.log('[WSConnectionView] disconnect() response')
-        } catch (err) {
-            console.warn(err)
+            console.log( '[WSConnectionView] disconnect() response' )
+        } catch ( err ) {
+            console.warn( err )
         }
     }
 
     // #region [ auth module ]
     async register (): Promise<void> {
         try {
-            console.log('[WSAuthContractComponent] register')
-            await wsapi.auth.register({
+            console.log( '[WSAuthContractComponent] register' )
+            await wsapi.auth.register( {
                 email: this.registerEmail,
-                password: this.registerPassword
-            })
-        } catch (err) {
-            console.warn(err)
+                password: this.registerPassword,
+            } )
+        } catch ( err ) {
+            console.warn( err )
         }
     }
 
     async login (): Promise<void> {
         try {
-            console.log('[WSAuthContractComponent] login')
-            await wsapi.auth.login({
+            console.log( '[WSAuthContractComponent] login' )
+            await wsapi.auth.login( {
                 email: this.registerEmail,
-                password: this.registerPassword
-            })
-        } catch (err) {
-            console.warn(err)
+                password: this.registerPassword,
+            } )
+        } catch ( err ) {
+            console.warn( err )
         }
     }
 
     async logout (): Promise<void> {
         try {
-            console.log('[WSAuthContractComponent] logout')
+            console.log( '[WSAuthContractComponent] logout' )
             await wsapi.auth.logout()
-        } catch (err) {
-            console.warn(err)
+        } catch ( err ) {
+            console.warn( err )
         }
     }
     // #endregion

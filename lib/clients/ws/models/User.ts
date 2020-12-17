@@ -9,4 +9,5 @@ export class User extends Model {
     public surname: string
 
     constructor ( init?: Partial<User> ) { super( init ) }
+
 }

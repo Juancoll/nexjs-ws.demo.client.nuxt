@@ -6,31 +6,31 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 
-@Component({
-    middleware: 'auth'
-})
+@Component( {
+    middleware: 'auth',
+} )
 export default class AuthenticatedPage extends Vue {
-    public get user () {
+    public get user (): any {
         return this.$auth.user
     }
 
     constructor () {
         super()
-        console.log('[page-authenticated] constructor')
+        console.log( '[page-authenticated] constructor' )
     }
 
     // #region [ vue lifecycle ]
-    beforeCreate (): void { console.log('[page-authenticated][vue] beforeCreated()') }
+    beforeCreate (): void { console.log( '[page-authenticated][vue] beforeCreated()' ) }
     created (): void {
-        console.log('[page-authenticated][vue] created()')
+        console.log( '[page-authenticated][vue] created()' )
     }
 
-    beforeMount () { console.log('[page-authenticated][vue] beforeMount()') }
-    mounted (): void { console.log('[page-authenticated][vue] mounted()') }
-    beforeUpdate (): void { console.log('[page-authenticated][vue] beforeUpdate()') }
-    updated (): void { console.log('[page][authenticated-vue] updated()') }
-    beforeDestroy (): void { console.log('[page-authenticated][vue] beforeDestroy()') }
-    destroyed (): void { console.log('[page-authenticated][vue] destroyed()') }
+    beforeMount (): void { console.log( '[page-authenticated][vue] beforeMount()' ) }
+    mounted (): void { console.log( '[page-authenticated][vue] mounted()' ) }
+    beforeUpdate (): void { console.log( '[page-authenticated][vue] beforeUpdate()' ) }
+    updated (): void { console.log( '[page][authenticated-vue] updated()' ) }
+    beforeDestroy (): void { console.log( '[page-authenticated][vue] beforeDestroy()' ) }
+    destroyed (): void { console.log( '[page-authenticated][vue] destroyed()' ) }
     // #endregion
 }
 </script>

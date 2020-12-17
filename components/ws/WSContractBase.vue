@@ -27,74 +27,74 @@ export default class WSBaseContractView extends Vue {
 
     constructor () {
         super()
-        console.log('[WSBaseContractView] constructor()')
+        console.log( '[WSBaseContractView] constructor()' )
     }
 
     mounted (): void {
-        console.log('[WSBaseContractView] mounted()')
-        wsapi.baseContract.onUpdate.on(() =>
-            console.log('[baseContract] onUpdate')
+        console.log( '[WSBaseContractView] mounted()' )
+        wsapi.baseContract.onUpdate.on( () =>
+            console.log( '[baseContract] onUpdate' ),
         )
-        wsapi.baseContract.onDataUpdate.on(data =>
-            console.log('[baseContract] onDataUpdate', data)
+        wsapi.baseContract.onDataUpdate.on( data =>
+            console.log( '[baseContract] onDataUpdate', data ),
         )
     }
 
     destroyed (): void {
-        console.log('[WSBaseContractView] destroyed()')
+        console.log( '[WSBaseContractView] destroyed()' )
         wsapi.baseContract.onUpdate.off()
         wsapi.baseContract.onDataUpdate.off()
     }
 
     async subscribe (): Promise<void> {
         try {
-            console.log('[WSBaseContractView] subscribe request')
+            console.log( '[WSBaseContractView] subscribe request' )
             await wsapi.baseContract.onUpdate.sub()
             await wsapi.baseContract.onDataUpdate.sub()
-            console.log('[WSBaseContractView] subscribe response')
-        } catch (err) {
-            console.warn(err)
+            console.log( '[WSBaseContractView] subscribe response' )
+        } catch ( err ) {
+            console.warn( err )
         }
     }
 
     async unsubscribe (): Promise<void> {
         try {
-            console.log('[WSBaseContractView] unsubscribe request')
+            console.log( '[WSBaseContractView] unsubscribe request' )
             await wsapi.baseContract.onUpdate.unsub()
             await wsapi.baseContract.onDataUpdate.unsub()
-            console.log('[WSBaseContractView] unsubscribe response')
-        } catch (err) {
-            console.warn(err)
+            console.log( '[WSBaseContractView] unsubscribe response' )
+        } catch ( err ) {
+            console.warn( err )
         }
     }
 
     async print (): Promise<void> {
         try {
-            console.log('[WSBaseContractView] print() request')
+            console.log( '[WSBaseContractView] print() request' )
             await wsapi.baseContract.print()
-            console.log('[WSBaseContractView] print() response')
-        } catch (err) {
-            console.warn(err)
+            console.log( '[WSBaseContractView] print() response' )
+        } catch ( err ) {
+            console.warn( err )
         }
     }
 
     async delay (): Promise<void> {
         try {
-            console.log('[WSBaseContractView] delay() request')
-            await wsapi.baseContract.delay(2000)
-            console.log('[WSBaseContractView] delay() response')
-        } catch (err) {
-            console.warn(err)
+            console.log( '[WSBaseContractView] delay() request' )
+            await wsapi.baseContract.delay( 2000 )
+            console.log( '[WSBaseContractView] delay() response' )
+        } catch ( err ) {
+            console.warn( err )
         }
     }
 
     async notify (): Promise<void> {
         try {
-            console.log('[WSBaseContractView] notify() request')
+            console.log( '[WSBaseContractView] notify() request' )
             await wsapi.baseContract.notify()
-            console.log('[WSBaseContractView] notify() response')
-        } catch (err) {
-            console.warn(err)
+            console.log( '[WSBaseContractView] notify() response' )
+        } catch ( err ) {
+            console.warn( err )
         }
     }
 }

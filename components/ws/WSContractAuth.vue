@@ -23,18 +23,12 @@ import { wsapi } from '@/plugins/wsapi'
 
 @Component
 export default class WSAuthContractView extends Vue {
-    registerEmail = 'juan@any.com';
-    registerPassword = '123456';
-
-    loginEmail = 'juan@any.com';
-    loginPassword = '123456';
-
     constructor () {
         super()
         console.log( '[WSAuthContractView] constructor()' )
     }
 
-    // #region [ Vue ]
+    //#region [ lifecycle ]
     mounted (): void {
         console.log( '[WSAuthContractView] mounted()' )
         wsapi.authContract.onUpdate.on( () =>
@@ -44,19 +38,18 @@ export default class WSAuthContractView extends Vue {
             console.log( '[credentialContract] onDataUpdate', data ),
         )
     }
-
     destroyed (): void {
         console.log( '[WSAuthContractView] destroyed()' )
         wsapi.authContract.onUpdate.off()
         wsapi.authContract.onDataUpdate.off()
     }
-    // #endregion
+    //#endregion
 
     async subscribe (): Promise<void> {
         try {
             console.log( '[WSAuthContractView] subscribe request' )
-            await wsapi.authContract.onUpdate.sub( 'user-credentials-001' )
-            await wsapi.authContract.onDataUpdate.sub( 'user-credentials-002' )
+            await wsapi.authContract.onUpdate.sub( )
+            await wsapi.authContract.onDataUpdate.sub( )
             console.log( '[WSAuthContractView] subscribe response' )
         } catch ( err ) {
             console.warn( err )

@@ -20,7 +20,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { httpapi } from '~/plugins/httpapi'
+import { wsapi } from '~/plugins/wsapi'
 
 @Component
 export default class RegisterView extends Vue {
@@ -36,9 +36,11 @@ export default class RegisterView extends Vue {
         try {
             this.isWaiting = true
             this.validation()
-            await httpapi.auth.authControllerRegister({
-                email: this.email,
-                password: this.password
+            await wsapi.auth.register({
+                data: {
+                    email: this.email,
+                    password: this.password
+                }
             })
             this.$nuxt.context.redirect('/auth/login')
         } catch (err) {

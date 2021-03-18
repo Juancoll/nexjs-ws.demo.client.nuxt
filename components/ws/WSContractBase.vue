@@ -39,7 +39,6 @@ export default class WSBaseContractView extends Vue {
             console.log( '[baseContract] onDataUpdate', data ),
         )
     }
-
     destroyed (): void {
         console.log( '[WSBaseContractView] destroyed()' )
         wsapi.baseContract.onUpdate.off()

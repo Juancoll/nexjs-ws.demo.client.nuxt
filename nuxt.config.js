@@ -2,7 +2,7 @@ import morgan from 'morgan'
 import colors from 'vuetify/es5/util/colors'
 
 export default {
-    // Nuxt rendering mode - See https://nuxtjs.org/api/configuration-mode
+    // Global page headers: https://go.nuxtjs.dev/config-head
     env: {
         envVar1: 'envVar1Value',
         envVar2: 'envVar2Value'
@@ -16,150 +16,109 @@ export default {
         privateVar2: 'privateVar2Value'
     },
 
-    // Nuxt rendering mode - See https://nuxtjs.org/api/configuration-mode
-    mode: 'universal',
-
-    // Nuxt target - See https://nuxtjs.org/api/configuration-target
-    target: 'server',
-
-    // Headers of the page - See https://nuxtjs.org/api/configuration-head
     head: {
-        titleTemplate: '%s - ' + process.env.npm_package_name,
-        title: process.env.npm_package_name || '',
+        titleTemplate: '%s - nuxt-sample',
+        title: 'nuxt-sample',
+        htmlAttrs: {
+            lang: 'en'
+        },
         meta: [
             { charset: 'utf-8' },
             { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-            { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
+            { hid: 'description', name: 'description', content: '' }
         ],
         link: [
             { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
         ]
     },
 
-    // Global CSS
+    // Global CSS: https://go.nuxtjs.dev/config-css
     css: [
         '~/assets/style/common.scss',
         '~/assets/style/main.scss',
         '~/assets/style/nexcode.flex.scss'
     ],
 
-    // Plugins to load before mounting the App - https://nuxtjs.org/guide/plugins
+    // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: [
         '~/plugins/custom.plugin',
-        '~/plugins/httpapi',
         '~/plugins/wsapi'
     ],
 
-    // Auto import components - See https://nuxtjs.org/api/configuration-components
+    // Auto import components: https://go.nuxtjs.dev/config-components
     components: true,
 
-    // Nuxt.js dev-modules
+    // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
     buildModules: [
+    // https://go.nuxtjs.dev/typescript
         '@nuxt/typescript-build',
-        ['@nuxtjs/vuetify',
-            {
-                customVariables: ['~/assets/style/vuetify.scss'],
-                theme: {
-                    dark: false,
-                    themes: {
-                        dark: {
-                            primary: colors.blue.darken2,
-                            accent: colors.grey.darken3,
-                            secondary: colors.amber.darken3,
-                            info: colors.teal.lighten1,
-                            warning: colors.amber.base,
-                            error: colors.deepOrange.accent4,
-                            success: colors.green.accent3
-                        }
-                    }
-                }
-            }
-        ]
+        // https://go.nuxtjs.dev/vuetify
+        '@nuxtjs/vuetify'
     ],
 
-    //  Nuxt.js modules
+    // Modules: https://go.nuxtjs.dev/config-modules
     modules: [
-        ['@nuxt/content', {}], // Doc: https://github.com/nuxt/content
-        ['@nuxtjs/axios', {
-            baseURL: 'http://localhost:3000/api',
-            credentials: true
-        }],
-        ['@nuxtjs/auth-next', {
-            strategies: {
-                'local-session': {
-                    scheme: 'local',
-                    token: {
-                        required: false,
-                        type: false
-                    },
-                    user: {
-                        property: 'user'
-                    },
-                    endpoints: {
-                        login: { url: '/auth/localLogin', method: 'post' },
-                        logout: { url: '/auth/localLogout', method: 'post' },
-                        user: { url: '/auth/localMe', method: 'get' }
-                    }
-                },
-                'local-jwt': {
-                    scheme: 'local',
-                    token: {
-                        property: 'token',
-                        required: true,
-                        type: 'Bearer'
-                    },
-                    user: {
-                        property: 'user'
-                    },
-                    endpoints: {
-                        login: { url: '/auth/jwtLogin', method: 'post' },
-                        logout: { url: '/auth/jwtLogout', method: 'post' },
-                        user: { url: '/auth/jwtMe', method: 'get' }
-                    }
-                },
-                'nexjs-ws': {
-                    scheme: '~/plugins/schemes/ws.auth.scheme.v2',
-                    token: {
-                        property: 'token',
-                        required: true,
-                        type: 'Bearer'
-                    },
-                    user: {
-                        property: 'user',
-                        autoFetch: false
+        '@nuxtjs/axios',
+        ['@nuxtjs/auth-next',
+            {
+                strategies: {
+                    local: {
+                        scheme: 'local',
+                        token: {
+                            required: false,
+                            type: false,
+                        },
+                        user: {
+                            property: 'user',
+                        },
+                        endpoints: {
+                            login: { url: '/auth/localLogin', method: 'post' },
+                            logout: { url: '/auth/localLogout', method: 'post' },
+                            user: { url: '/auth/localMe', method: 'get' },
+                        },
                     },
                     ws: {
-                        url: 'http://localhost:3000',
-                        path: '/wsapi',
-                        nsp: '/'
-                    }
-                }
-            },
-            redirect: {
-                login: '/auth/login',
-                logout: '/',
-                callback: false,
-                home: false
+                        scheme: '~/plugins/auth.scheme.plugin',
+                        ws: {
+                            url: 'http://localhost:3000',
+                            path: '/wsapi',
+                            nsp: '/',
+                        },
+                    },
+                },
+                redirect: {
+                    login: '/auth/login',
+                    logout: '/',
+                    callback: false,
+                    home: false,
+                },
             }
-        }]
+        ],
     ],
 
-    // Build configuration - See https://nuxtjs.org/api/configuration-build/
+    // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
+    vuetify: {
+        customVariables: ['~/assets/style/vuetify.scss'],
+        theme: {
+            dark: false,
+        }
+    },
+    serverMiddleware: [
+        morgan('tiny'),
+        '~/api/custom.server-middleware.ts',
+        { path: '/test', handler: '~/api/handler.server-middleware.ts' }
+    ],
+
+    // Build Configuration: https://go.nuxtjs.dev/config-build
     build: {
         extend (config, ctx) {
             if (ctx.isDev) {
                 config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
             }
         },
-        transpile: ['@nuxtjs/auth']
+        transpile: ['@nuxtjs/auth-next'],
     },
-
-    serverMiddleware: [
-        morgan('tiny'),
-        '~/api/custom.server-middleware.ts',
-        { path: '/test', handler: '~/api/handler.server-middleware.ts' }
-    ],
     server: {
-        port: 8000
-    }
+        port: 8000,
+    },
 }

@@ -1,16 +1,13 @@
 {
-    "vetur.format.options.tabSize": 4,
-    "vetur.format.defaultFormatter.ts": "none",
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
-    "explorer.compactFolders": false,
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,
         "**/.hg": true,
         "**/CVS": true,
         "**/.DS_Store": true,
-        "**/node_modules": true
+        "**/.node_modules": true,
     }
 }

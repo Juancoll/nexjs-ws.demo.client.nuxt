@@ -3,7 +3,13 @@
         v-card
             v-alert(outlined  type="warning"  border="left") See Action Result on browser Console. (Press F12 to open)
             h1  @nexjs Websocket Connection
-            v-text-field( :value="url" label="url")
+            v-row
+                v-col
+                    v-text-field( v-model="url" label="url")
+                v-col
+                    v-text-field( v-model="path" label="path")
+                v-col
+                    v-text-field( v-model="nsp" label="nsp")
             v-btn(@click="connect") connect
             v-btn(@click="disconnect") disconnect
             br
@@ -25,15 +31,18 @@
                     v-btn(@click="login") login
 
             v-btn(@click="logout") logout
+        router-view
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import { wsapi } from '@/plugins/wsapi'
 
 @Component
 export default class WSConnectionView extends Vue {
     url = 'http://localhost:3000';
+    path = '/wsapi';
+    nsp = '/';
 
     registerEmail = 'juan@any.com';
     registerPassword = '123456';
@@ -41,10 +50,22 @@ export default class WSConnectionView extends Vue {
     loginEmail = 'juan@any.com';
     loginPassword = '123456';
 
+    constructor () {
+        super()
+        console.log( '[WSConnectionView] constructor()' )
+    }
+
+    mounted (): void {
+        console.log( '[WSConnectionView] mounted()' )
+    }
+    destroyed (): void {
+        console.log( '[WSConnectionView] destroyed()' )
+    }
+
     async connect (): Promise<void> {
         try {
             console.log( '[WSConnectionView] connect() request' )
-            await wsapi.ws.connectAsync( this.url, '/wsapi', '' )
+            await wsapi.ws.connectAsync( this.url, this.path, this.nsp )
             console.log( '[WSConnectionView] connect() response' )
         } catch ( err ) {
             console.warn( err )
@@ -61,7 +82,7 @@ export default class WSConnectionView extends Vue {
         }
     }
 
-    // #region [ auth module ]
+    //#region [ auth module ]
     async register (): Promise<void> {
         try {
             console.log( '[WSAuthContractComponent] register' )
@@ -85,7 +106,6 @@ export default class WSConnectionView extends Vue {
             console.warn( err )
         }
     }
-
     async logout (): Promise<void> {
         try {
             console.log( '[WSAuthContractComponent] logout' )
@@ -94,10 +114,9 @@ export default class WSConnectionView extends Vue {
             console.warn( err )
         }
     }
-    // #endregion
+    //#endregion
 }
 </script>
-
 <style lang="scss" scoped>
 .v-card {
     margin: 10px;

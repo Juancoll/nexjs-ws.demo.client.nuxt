@@ -36,36 +36,10 @@ export default class LoginView extends Vue {
     public isWaiting = false;
     // #endregion
 
-    constructor () {
-        super()
-    }
-
     // #region [ methods ]
-    async loginLocal (): Promise<void> {
-        try {
-            await this.$auth.loginWith('local-session', { data: { email: this.email, password: this.password } })
-            this.$nuxt.context.redirect('/authenticated')
-        } catch (err) {
-            console.log(err)
-        } finally {
-            this.isWaiting = false
-        }
-    }
-
-    async loginJwt (): Promise<void> {
-        try {
-            await this.$auth.loginWith('local-jwt', { data: { email: this.email, password: this.password } })
-            this.$nuxt.context.redirect('/authenticated')
-        } catch (err) {
-            console.log(err)
-        } finally {
-            this.isWaiting = false
-        }
-    }
-
     async loginWS (): Promise<void> {
         try {
-            await this.$auth.loginWith('nexjs-ws', { data: { email: this.email, password: this.password } })
+            await this.$auth.loginWith('ws', { data: { email: this.email, password: this.password } })
             this.$nuxt.context.redirect('/authenticated')
         } catch (err) {
             console.log(err)

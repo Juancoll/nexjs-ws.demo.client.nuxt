@@ -74,11 +74,6 @@ export default class DefaultLayout extends Vue {
             to: '/inspire'
         },
         {
-            icon: 'mdi-text-box',
-            title: 'Content',
-            to: '/content'
-        },
-        {
             icon: 'mdi-nuxt',
             title: 'Nuxt',
             to: '/nuxt'
@@ -94,20 +89,10 @@ export default class DefaultLayout extends Vue {
             to: '/ws'
         },
         {
-            icon: 'mdi-api',
-            title: 'HTTP API',
-            to: '/http'
-        },
-        {
             icon: 'mdi-account',
             title: 'login',
             to: '/auth/login'
         },
-        {
-            icon: 'mdi-account-lock',
-            title: 'Authenticated',
-            to: '/authenticated'
-        }
     ]
 
     miniVariant= false
